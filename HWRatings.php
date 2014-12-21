@@ -16,7 +16,9 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'HWRatingsHooks::onLoadExtensionSchem
 //APIs
 $wgAutoloadClasses['HWAddRatingApi'] = "$dir/api/HWAddRatingApi.php";
 $wgAutoloadClasses['HWAvgRatingApi'] = "$dir/api/HWAvgRatingApi.php";
+$wgAutoloadClasses['HWGetRatingsApi'] = "$dir/api/HWGetRatingsApi.php";
 $wgAPIModules['hwaddrating'] = 'HWAddRatingApi';
 $wgAPIModules['hwavgrating'] = 'HWAvgRatingApi';
+$wgAPIModules['hwgetratings'] = 'HWGetRatingsApi';
 
 return true;
