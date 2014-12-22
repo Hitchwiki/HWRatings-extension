@@ -29,25 +29,29 @@ class HWAddRatingApi extends ApiBase {
         )
       );
 
-      $res = $dbr->query("SELECT AVG(hw_rating) FROM hw_ratings WHERE hw_page_id=".$dbr->addQuotes($page_id));
+      $res = $dbr->query("SELECT AVG(hw_rating) as average_rating, COUNT(hw_rating) as count_rating  FROM hw_ratings WHERE hw_page_id=".$dbr->addQuotes($page_id));
       $row = $res->fetchRow();
-      $average = round($row[0]);
-
+      $average = round($row['average_rating']);
+      $count = $row['count_rating'];
 
       $dbr->upsert(
         'hw_ratings_avg',
         array(
           'hw_page_id' => $page_id,
-          'hw_average_rating' => $average,
+          'hw_count_rating' => $count,
+          'hw_average_rating' => $average
         ),
         array('hw_page_id'),
         array(
           'hw_page_id' => $page_id,
-          'hw_average_rating' => $average,
+          'hw_count_rating' => $count,
+          'hw_average_rating' => $average
         )
       );
 
       $this->getResult()->addValue('query' , 'average', $average);
+      $this->getResult()->addValue('query' , 'count', $count);
+      $this->getResult()->addValue('query' , 'pageid', $page_id);
     }
     else {
       $this->getResult()->addValue('error' , 'info', 'wating time should be positive.');

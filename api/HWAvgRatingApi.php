@@ -10,14 +10,19 @@ class HWAvgRatingApi extends ApiBase {
     $dbr = wfGetDB( DB_SLAVE );
     $res = $dbr->select(
       'hw_ratings_avg',
-      'hw_average_rating',
+      array(
+        'hw_average_rating',
+        'hw_count_rating'
+      ),
       'hw_page_id ='.$page_id
     );
     $row = $res->fetchRow();
-    $average = $row[0];
+    $average = $row['hw_average_rating'];
+    $count = $row['hw_count_rating'];
 
     if($row) {
       $this->getResult()->addValue('query' , 'average', $average);
+      $this->getResult()->addValue('query' , 'count', $count);
       $this->getResult()->addValue('query' , 'pageid', $page_id);
     }
     else {
@@ -29,7 +34,7 @@ class HWAvgRatingApi extends ApiBase {
 
   // Description
   public function getDescription() {
-      return 'Get average rating of a page.';
+      return 'Get average rating and rating count of a page.';
   }
 
   // Parameters.
