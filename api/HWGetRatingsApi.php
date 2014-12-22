@@ -17,9 +17,7 @@ class HWGetRatingsApi extends ApiBase {
         'hw_timestamp'
       ),
       'hw_page_id ='.$page_id
-    );
-
-    $this->getResult()->addValue( array( 'query', 'ratings' ), null, null);
+    );    
 
     foreach( $res as $row ) {
       $vals = array(
@@ -29,6 +27,9 @@ class HWGetRatingsApi extends ApiBase {
         'timestamp' => $row->hw_timestamp
       );
       $this->getResult()->addValue( array( 'query', 'ratings' ), null, $vals );
+    }
+    if($vals == null) {
+        $this->getResult()->addValue( array( 'query', 'ratings' ), null, null);
     }
 
     return true;

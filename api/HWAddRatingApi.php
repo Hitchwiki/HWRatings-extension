@@ -22,10 +22,8 @@ class HWAddRatingApi extends ApiBase {
           'hw_rating' => $rating,
           'hw_timestamp' => $timestamp
         ),
-        array('hw_user_id'),
+        array('hw_user_id', 'hw_page_id'),
         array(
-          'hw_user_id' => $user_id,
-          'hw_page_id' => $page_id,
           'hw_rating' => $rating,
           'hw_timestamp' => $timestamp
         )

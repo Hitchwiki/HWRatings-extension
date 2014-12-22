@@ -1,6 +1,6 @@
 <?php
 
-$wgExtensionCredits['api'][] = array(
+$wgExtensionCredits['HWRatings'][] = array(
 	'path' => __FILE__,
 	'name' => 'HWRatings',
 	'version' => '0.0.1',
