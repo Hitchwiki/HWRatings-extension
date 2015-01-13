@@ -13,6 +13,10 @@ $dir = __DIR__;
 $wgAutoloadClasses['HWRatingsHooks'] = "$dir/HWRatingsHooks.php";
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'HWRatingsHooks::onLoadExtensionSchemaUpdates';
 
+//Deletion and undeletion hooks
+$wgHooks['ArticleDeleteComplete'][] = 'HWRatingsHooks::onArticleDeleteComplete';
+$wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndeleted';
+
 //APIs
 $wgAutoloadClasses['HWAddRatingApi'] = "$dir/api/HWAddRatingApi.php";
 $wgAutoloadClasses['HWAvgRatingApi'] = "$dir/api/HWAvgRatingApi.php";
