@@ -41,6 +41,18 @@ class HWRatingsHooks {
       )
     );
 
+    if ($newID != $oldID) {
+      $dbr->update(
+        'hw_ratings_avg',
+        array(
+          'hw_page_id' => $newID
+        ),
+        array(
+          'hw_page_id' => $oldID
+        )
+      );
+    }
+
     return true;
   }
 }
