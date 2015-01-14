@@ -69,7 +69,7 @@ class HWAddRatingApi extends ApiBase {
   public function getAllowedParams() {
       return array(
           'rating' => array (
-              ApiBase::PARAM_TYPE => 'string',
+              ApiBase::PARAM_TYPE => 'integer',
               ApiBase::PARAM_REQUIRED => true
           ),
           'pageid' => array (
