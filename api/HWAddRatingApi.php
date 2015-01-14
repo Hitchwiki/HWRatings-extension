@@ -54,7 +54,7 @@ class HWAddRatingApi extends ApiBase {
       $this->getResult()->addValue('query' , 'pageid', $page_id);
     }
     else {
-      $this->getResult()->addValue('error' , 'info', 'wating time should be positive.');
+      $this->getResult()->addValue('error' , 'info', 'wating time should be a proper integer between 1 and 5.');
     }
 
     return true;
