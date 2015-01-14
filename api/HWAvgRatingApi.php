@@ -12,23 +12,22 @@ class HWAvgRatingApi extends ApiBase {
       'hw_ratings_avg',
       array(
         'hw_average_rating',
-        'hw_count_rating'
+        'hw_count_rating',
+        'hw_page_id'
       ),
-      'hw_page_id ='.$page_id
+      'hw_page_id IN ('.$page_id.')'
     );
-    $row = $res->fetchRow();
-    $average = $row['hw_average_rating'];
-    $count = $row['hw_count_rating'];
-
-    if($row) {
-      $this->getResult()->addValue('query' , 'average', $average);
-      $this->getResult()->addValue('query' , 'count', $count);
-      $this->getResult()->addValue('query' , 'pageid', $page_id);
+    foreach( $res as $row ) {
+      $vals = array(
+        'pageid' => $row->hw_page_id,
+        'rating_average' => $row->hw_average_rating,
+        'rating_count' => $row->hw_count_rating
+      );
+      $this->getResult()->addValue( array( 'query', 'ratings' ), null, $vals );
     }
-    else {
-      $this->getResult()->addValue('error' , 'info', 'No average rating for this page.');
+    if($vals == null) {
+        $this->getResult()->addValue('error' , 'info', 'No average rating for this page.');
     }
-
     return true;
   }
 
