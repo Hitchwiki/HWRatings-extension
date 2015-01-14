@@ -22,6 +22,16 @@ class HWRatingsHooks {
       )
     );
 
+    $dbr->update(
+      'hw_ratings_avg',
+      array(
+        'hw_deleted' => '1'
+      ),
+      array(
+        'hw_page_id' => $id
+      )
+    );
+
     return true;
   }
 
@@ -41,17 +51,16 @@ class HWRatingsHooks {
       )
     );
 
-    if ($newID != $oldID) {
-      $dbr->update(
-        'hw_ratings_avg',
-        array(
-          'hw_page_id' => $newID
-        ),
-        array(
-          'hw_page_id' => $oldID
-        )
-      );
-    }
+    $dbr->update(
+      'hw_ratings_avg',
+      array(
+        'hw_deleted' => '0',
+        'hw_page_id' => $newID
+      ),
+      array(
+        'hw_page_id' => $oldID
+      )
+    );
 
     return true;
   }
