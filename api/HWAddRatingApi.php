@@ -51,6 +51,7 @@ class HWAddRatingApi extends ApiBase {
 
       $this->getResult()->addValue('query' , 'average', $average);
       $this->getResult()->addValue('query' , 'count', $count);
+      $this->getResult()->addValue('query' , 'timestamp', $timestamp);
       $this->getResult()->addValue('query' , 'pageid', $page_id);
     }
     else {
