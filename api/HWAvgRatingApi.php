@@ -4,7 +4,7 @@ class HWAvgRatingApi extends ApiBase {
     // Get parameters
     $params = $this->extractRequestParams();
 
-    $page_id = $params['pageid'];
+    $page_ids = $params['pageid'];
     $pageObj = $this->getTitleOrPageId($params);
 
     $dbr = wfGetDB( DB_SLAVE );
@@ -15,7 +15,7 @@ class HWAvgRatingApi extends ApiBase {
         'hw_count_rating',
         'hw_page_id'
       ),
-      'hw_page_id IN ('.$page_id.')'
+      'hw_page_id IN ('.implode(',', $page_ids).')'
     );
     foreach( $res as $row ) {
       $vals = array(
@@ -40,8 +40,9 @@ class HWAvgRatingApi extends ApiBase {
   public function getAllowedParams() {
       return array(
           'pageid' => array (
-              ApiBase::PARAM_TYPE => 'string',
-              ApiBase::PARAM_REQUIRED => true
+              ApiBase::PARAM_TYPE => 'integer',
+              ApiBase::PARAM_REQUIRED => true,
+              ApiBase::PARAM_ISMULTI => true
           )
       );
   }
