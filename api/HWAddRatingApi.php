@@ -31,7 +31,7 @@ class HWAddRatingApi extends ApiBase {
 
       $res = $dbr->query("SELECT AVG(hw_rating) as average_rating, COUNT(hw_rating) as count_rating  FROM hw_ratings WHERE hw_page_id=".$dbr->addQuotes($page_id));
       $row = $res->fetchRow();
-      $average = round($row['average_rating']);
+      $average = (string)round($row['average_rating']);
       $count = $row['count_rating'];
 
       $dbr->upsert(
