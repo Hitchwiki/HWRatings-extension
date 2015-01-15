@@ -19,9 +19,11 @@ $wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndel
 
 //APIs
 $wgAutoloadClasses['HWAddRatingApi'] = "$dir/api/HWAddRatingApi.php";
+$wgAutoloadClasses['HWDeleteRatingApi'] = "$dir/api/HWDeleteRatingApi.php";
 $wgAutoloadClasses['HWAvgRatingApi'] = "$dir/api/HWAvgRatingApi.php";
 $wgAutoloadClasses['HWGetRatingsApi'] = "$dir/api/HWGetRatingsApi.php";
 $wgAPIModules['hwaddrating'] = 'HWAddRatingApi';
+$wgAPIModules['hwdeleterating'] = 'HWDeleteRatingApi';
 $wgAPIModules['hwavgrating'] = 'HWAvgRatingApi';
 $wgAPIModules['hwgetratings'] = 'HWGetRatingsApi';
 
