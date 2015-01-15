@@ -21,7 +21,8 @@ class HWAvgRatingApi extends ApiBase {
         'hw_average_rating',
         'hw_count_rating',
         'hw_ratings_avg.hw_page_id',
-        'hw_ratings.hw_rating'
+        'hw_ratings.hw_rating',
+        'hw_ratings.hw_timestamp',
       ),
       'hw_ratings_avg.hw_page_id IN ('.implode(',', $page_ids).')',
       __METHOD__,
@@ -36,7 +37,8 @@ class HWAvgRatingApi extends ApiBase {
         'pageid' => $row->hw_page_id,
         'rating_average' => $row->hw_average_rating,
         'rating_count' => $row->hw_count_rating,
-        'rating_user' => $row->hw_rating ? $row->hw_rating : "0"
+        'rating_user' => $row->hw_rating ? $row->hw_rating : "0",
+        'timestamp_user' => $row->hw_timestamp ? $row->hw_timestamp : null
       );
       $this->getResult()->addValue( array( 'query', 'ratings' ), null, $vals );
     }
@@ -70,6 +72,7 @@ class HWAvgRatingApi extends ApiBase {
   public function getParamDescription() {
       return array_merge( parent::getParamDescription(), array(
           'pageid' => 'Id of the spot to rate',
+          'user_id' => 'Optional user id to get rate of a specific user'
       ) );
   }
 }
