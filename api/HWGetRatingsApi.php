@@ -9,22 +9,32 @@ class HWGetRatingsApi extends ApiBase {
 
     $dbr = wfGetDB( DB_SLAVE );
     $res = $dbr->select(
-      'hw_ratings',
+      array(
+        'hw_ratings',
+        'user'
+      ),
       array(
         'hw_user_id',
         'hw_page_id',
         'hw_rating',
-        'hw_timestamp'
+        'hw_timestamp',
+        'user_name'
       ),
-      'hw_page_id ='.$page_id
-    );    
+      'hw_page_id ='.$page_id,
+      __METHOD__,
+      array(),
+      array( 'user' => array( 'JOIN', array(
+        'hw_ratings.hw_user_id = user.user_id',
+      ) ) )
+    );
 
     foreach( $res as $row ) {
       $vals = array(
         'pageid' => $row->hw_page_id,
         'user_id' => $row->hw_user_id,
         'rating' => $row->hw_rating,
-        'timestamp' => $row->hw_timestamp
+        'timestamp' => $row->hw_timestamp,
+        'user_name' => $row->user_name
       );
       $this->getResult()->addValue( array( 'query', 'ratings' ), null, $vals );
     }
