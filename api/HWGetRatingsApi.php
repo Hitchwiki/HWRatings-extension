@@ -1,11 +1,12 @@
 <?php
+
 class HWGetRatingsApi extends ApiBase {
   public function execute() {
-    // Get parameters
     $params = $this->extractRequestParams();
-
     $page_id = $params['pageid'];
-    $pageObj = $this->getTitleOrPageId($params);
+
+    // Exit with an error if pageid is not valid (eg. non-existent or deleted)
+    $this->getTitleOrPageId($params);
 
     $dbr = wfGetDB( DB_SLAVE );
     $res = $dbr->select(
@@ -20,7 +21,9 @@ class HWGetRatingsApi extends ApiBase {
         'hw_timestamp',
         'user_name'
       ),
-      'hw_page_id ='.$page_id,
+      array(
+        'hw_page_id' => $page_id
+      ),
       __METHOD__,
       array(),
       array( 'user' => array( 'JOIN', array(
@@ -28,18 +31,16 @@ class HWGetRatingsApi extends ApiBase {
       ) ) )
     );
 
+    $this->getResult()->addValue( array( 'query' ), 'ratings', array() );
     foreach( $res as $row ) {
       $vals = array(
-        'pageid' => $row->hw_page_id,
-        'user_id' => $row->hw_user_id,
-        'rating' => $row->hw_rating,
+        'pageid' => intval($row->hw_page_id),
+        'rating' => intval($row->hw_rating),
         'timestamp' => $row->hw_timestamp,
+        'user_id' => intval($row->hw_user_id),
         'user_name' => $row->user_name
       );
       $this->getResult()->addValue( array( 'query', 'ratings' ), null, $vals );
-    }
-    if($vals == null) {
-        $this->getResult()->addValue( array( 'query', 'ratings' ), null, null);
     }
 
     return true;
@@ -47,23 +48,25 @@ class HWGetRatingsApi extends ApiBase {
 
   // Description
   public function getDescription() {
-      return 'Get all the ratings of a page.';
+    return 'Get all the ratings of a page';
   }
 
-  // Parameters.
+  // Parameters
   public function getAllowedParams() {
-      return array(
-          'pageid' => array (
-              ApiBase::PARAM_TYPE => 'string',
-              ApiBase::PARAM_REQUIRED => true
-          )
-      );
+    return array(
+      'pageid' => array (
+        ApiBase::PARAM_TYPE => 'integer',
+        ApiBase::PARAM_REQUIRED => true
+      )
+    );
   }
 
-  // Describe the parameter
+  // Describe the parameters
   public function getParamDescription() {
-      return array_merge( parent::getParamDescription(), array(
-          'pageid' => 'Id of the page',
-      ) );
+    return array_merge( parent::getParamDescription(), array(
+      'pageid' => 'Id of the page'
+    ) );
   }
 }
+
+?>
