@@ -1,6 +1,6 @@
 <?php
 
-class HWAvgRatingApi extends ApiBase {
+class HWAvgRatingApi extends HWRatingsBaseApi {
   public function execute() {
     $params = $this->extractRequestParams();
     $page_ids = $params['pageid'];
@@ -21,7 +21,7 @@ class HWAvgRatingApi extends ApiBase {
     // Join user's rating from hw_ratings if user_id was specified
     if ($user_id) {
       $tables[] = 'hw_ratings';
-      $fields[] = 'COALESCE(hw_ratings.hw_rating, 0) AS user_rating';
+      $fields[] = 'COALESCE(hw_ratings.hw_rating, -1) AS user_rating';
       $fields[] = "COALESCE(hw_ratings.hw_timestamp, '') AS user_timestamp";
       $join_conds['hw_ratings'] = array( 'LEFT JOIN', array(
         'hw_ratings.hw_page_id = hw_ratings_avg.hw_page_id',

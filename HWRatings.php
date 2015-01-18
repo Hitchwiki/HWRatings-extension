@@ -18,6 +18,7 @@ $wgHooks['ArticleDeleteComplete'][] = 'HWRatingsHooks::onArticleDeleteComplete';
 $wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndeleted';
 
 //APIs
+$wgAutoloadClasses['HWRatingsBaseApi'] = "$dir/api/HWRatingsBaseApi.php";
 $wgAutoloadClasses['HWAddRatingApi'] = "$dir/api/HWAddRatingApi.php";
 $wgAutoloadClasses['HWDeleteRatingApi'] = "$dir/api/HWDeleteRatingApi.php";
 $wgAutoloadClasses['HWAvgRatingApi'] = "$dir/api/HWAvgRatingApi.php";

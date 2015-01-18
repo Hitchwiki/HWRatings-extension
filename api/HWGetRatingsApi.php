@@ -1,6 +1,6 @@
 <?php
 
-class HWGetRatingsApi extends ApiBase {
+class HWGetRatingsApi extends HWRatingsBaseApi {
   public function execute() {
     $params = $this->extractRequestParams();
     $page_id = $params['pageid'];

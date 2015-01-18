@@ -1,6 +1,6 @@
 <?php
 
-class HWAddRatingApi extends ApiBase {
+class HWAddRatingApi extends HWRatingsBaseApi {
   public function execute() {
     global $wgUser;
     if (!$wgUser->isAllowed('edit')) {
@@ -32,38 +32,10 @@ class HWAddRatingApi extends ApiBase {
       )
     );
 
-    // Get fresh rating count and average rating
-    $res = $dbw->select(
-      'hw_ratings',
-      array(
-        'COALESCE(AVG(hw_rating), 0) AS average_rating', // we decided to stay away from NULLs
-        'COUNT(*) AS count_rating'
-      ),
-      array(
-        'hw_page_id' => $page_id
-      )
-    );
-    $row = $res->fetchRow();
-    $average = $row['average_rating'];
-    $count = $row['count_rating'];
+    $aggregate = $this->updateRatingAverages($page_id);
 
-    // Update rating count and average rating cache
-    $dbw->upsert(
-      'hw_ratings_avg',
-      array(
-        'hw_page_id' => $page_id,
-        'hw_count_rating' => $count,
-        'hw_average_rating' => $average
-      ),
-      array('hw_page_id'),
-      array(
-        'hw_count_rating' => $count,
-        'hw_average_rating' => $average
-      )
-    );
-
-    $this->getResult()->addValue('query' , 'average', round($average, 2));
-    $this->getResult()->addValue('query' , 'count', intval($count));
+    $this->getResult()->addValue('query' , 'average', round($aggregate['average'], 2));
+    $this->getResult()->addValue('query' , 'count', intval($aggregate['count']));
     $this->getResult()->addValue('query' , 'pageid', intval($page_id));
     $this->getResult()->addValue('query' , 'timestamp', $timestamp);
 
