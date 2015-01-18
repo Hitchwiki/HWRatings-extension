@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Default extension settings (both positive integers!)
+ */
+
+$wgHwRatingsMinRating = 1;
+$wgHwRatingsMaxRating = 5;
+
+/* ------------------------------------------------------------------------ */
+
 $wgExtensionCredits['HWRatings'][] = array(
 	'path' => __FILE__,
 	'name' => 'HWRatings',

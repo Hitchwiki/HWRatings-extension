@@ -2,6 +2,8 @@
 
 class HWGetRatingsApi extends HWRatingsBaseApi {
   public function execute() {
+    global $wgHwRatingsMinRating, $wgHwRatingsMaxRating;
+
     $params = $this->extractRequestParams();
     $page_id = $params['pageid'];
 
@@ -32,6 +34,17 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
     );
 
     $this->getResult()->addValue( array( 'query' ), 'ratings', array() );
+    //$this->getResult()->addValue( array( 'query' ), 'distribution', array() );
+
+    // $distribution will hold how many users gave one rating point to the page, how many gave two, etc.
+    $distribution = array();
+    for ( $i = $wgHwRatingsMinRating; $i <= $wgHwRatingsMaxRating; $i++ ) {
+      $distribution[$i] = array(
+        'count' => 0 // 'percentage' field will be set later on
+      );
+    }
+
+    $rating_count = $res->numRows();
     foreach( $res as $row ) {
       $vals = array(
         'pageid' => intval($row->hw_page_id),
@@ -41,7 +54,17 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
         'user_name' => $row->user_name
       );
       $this->getResult()->addValue( array( 'query', 'ratings' ), null, $vals );
+
+      $distribution[intval($row->hw_rating)]['count']++;
     }
+
+    // Will not always sum up precisely to 100%, but such is life...
+    foreach ($distribution as &$frequency) {
+      $frequency['percentage'] = round(($frequency['count'] / $rating_count) * 100, 3);
+    }
+    unset($frequency);
+
+    $this->getResult()->addValue( array( 'query' ), 'distribution', $distribution );
 
     return true;
   }

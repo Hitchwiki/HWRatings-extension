@@ -49,6 +49,7 @@ class HWAddRatingApi extends HWRatingsBaseApi {
 
   // Parameters
   public function getAllowedParams() {
+    global $wgHwRatingsMinRating, $wgHwRatingsMaxRating;
     return array(
       'pageid' => array (
         ApiBase::PARAM_TYPE => 'integer',
@@ -57,8 +58,8 @@ class HWAddRatingApi extends HWRatingsBaseApi {
       'rating' => array (
         ApiBase::PARAM_TYPE => 'integer',
         ApiBase::PARAM_REQUIRED => true,
-        ApiBase::PARAM_MIN => 1,
-        ApiBase::PARAM_MAX => 5,
+        ApiBase::PARAM_MIN => $wgHwRatingsMinRating,
+        ApiBase::PARAM_MAX => $wgHwRatingsMaxRating,
         ApiBase::PARAM_RANGE_ENFORCE => true
       ),
       'token' => array (
@@ -70,8 +71,9 @@ class HWAddRatingApi extends HWRatingsBaseApi {
 
   // Describe the parameters
   public function getParamDescription() {
+    global $wgHwRatingsMinRating, $wgHwRatingsMaxRating;
     return array_merge( parent::getParamDescription(), array(
-      'rating' => 'Rating [1..5]',
+      'rating' => 'Rating [' . $wgHwRatingsMinRating . '..' . $wgHwRatingsMaxRating . ']',
       'pageid' => 'Page id',
       'token' => 'csrf token'
     ) );
