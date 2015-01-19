@@ -58,13 +58,15 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
       $distribution[intval($row->hw_rating)]['count']++;
     }
 
-    // Will not always sum up precisely to 100%, but such is life...
-    foreach ($distribution as &$frequency) {
-      $frequency['percentage'] = round(($frequency['count'] / $rating_count) * 100, 3);
-    }
-    unset($frequency);
+    if ($rating_count != 0) { // prevent division by zero, and include distribution in result set only if there are ratings
+      // Will not always sum up precisely to 100%, but such is life...
+      foreach ($distribution as &$frequency) {
+        $frequency['percentage'] = round(($frequency['count'] / $rating_count) * 100, 3);
+      }
+      unset($frequency);
 
-    $this->getResult()->addValue( array( 'query' ), 'distribution', $distribution );
+      $this->getResult()->addValue( array( 'query' ), 'distribution', $distribution );
+    }
 
     return true;
   }
