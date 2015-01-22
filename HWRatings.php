@@ -13,7 +13,8 @@ $wgExtensionCredits['HWRatings'][] = array(
 	'path' => __FILE__,
 	'name' => 'HWRatings',
 	'version' => '0.0.1',
-	"authors" => "http://hitchwiki.org"
+  'author' => array('Rémi Claude', 'Mikael Korpela', 'Olexandr Melnyk'),
+  'url' => 'https://github.com/Hitchwiki/HWRatings-extension'
 );
 
 $dir = __DIR__;
