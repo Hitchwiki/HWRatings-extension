@@ -5,7 +5,7 @@ CREATE TABLE hw_ratings (
   hw_user_id int unsigned NOT NULL,
   hw_page_id int unsigned NOT NULL,
   hw_rating tinyint unsigned NOT NULL,
-  hw_timestamp char(14) NOT NULL,
+  hw_timestamp char(14) DEFAULT NULL,
   hw_deleted bool NOT NULL DEFAULT false
 );
 

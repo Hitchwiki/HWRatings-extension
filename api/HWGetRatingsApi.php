@@ -49,7 +49,7 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
       $vals = array(
         'pageid' => intval($row->hw_page_id),
         'rating' => intval($row->hw_rating),
-        'timestamp' => $row->hw_timestamp,
+        'timestamp' => $row->hw_timestamp ? $row->hw_timestamp : '',
         'user_id' => intval($row->hw_user_id),
         'user_name' => $row->user_name ? $row->user_name : ''
       );
