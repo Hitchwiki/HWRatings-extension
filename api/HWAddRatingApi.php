@@ -17,16 +17,18 @@ class HWAddRatingApi extends HWRatingsBaseApi {
     $this->getTitleOrPageId($params);
 
     $dbw = wfGetDB( DB_MASTER );
-    $dbw->upsert( // avoid duplicate entry for the same user
+    $dbw->delete( // avoid duplicate entry for the same user
+      'hw_ratings',
+      array(
+        'hw_user_id' => $user_id,
+        'hw_page_id' => $page_id
+      )
+    );
+    $dbw->insert(
       'hw_ratings',
       array(
         'hw_user_id' => $user_id,
         'hw_page_id' => $page_id,
-        'hw_rating' => $rating,
-        'hw_timestamp' => $timestamp
-      ),
-      array('hw_user_id', 'hw_page_id'),
-      array(
         'hw_rating' => $rating,
         'hw_timestamp' => $timestamp
       )
