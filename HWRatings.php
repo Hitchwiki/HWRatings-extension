@@ -19,6 +19,10 @@ $wgExtensionCredits['HWRatings'][] = array(
 
 $dir = __DIR__;
 
+// Register hook
+$wgAutoloadClasses['SpecialRatingsMap'] = $IP . '/extensions/HWRatings/SpecialRatingsMap.php';
+$wgSpecialPages['HWRatings'] = 'SpecialRatingsMap';
+
 //Database hook
 $wgAutoloadClasses['HWRatingsHooks'] = "$dir/HWRatingsHooks.php";
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'HWRatingsHooks::onLoadExtensionSchemaUpdates';
@@ -27,15 +31,53 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'HWRatingsHooks::onLoadExtensionSchem
 $wgHooks['ArticleDeleteComplete'][] = 'HWRatingsHooks::onArticleDeleteComplete';
 $wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndeleted';
 
+// Register aliases
+$wgExtensionMessagesFiles['HWRatingsAlias'] = __DIR__ . '/HWRatings.alias.php';
+
 //APIs
 $wgAutoloadClasses['HWRatingsBaseApi'] = "$dir/api/HWRatingsBaseApi.php";
 $wgAutoloadClasses['HWAddRatingApi'] = "$dir/api/HWAddRatingApi.php";
 $wgAutoloadClasses['HWDeleteRatingApi'] = "$dir/api/HWDeleteRatingApi.php";
 $wgAutoloadClasses['HWAvgRatingApi'] = "$dir/api/HWAvgRatingApi.php";
 $wgAutoloadClasses['HWGetRatingsApi'] = "$dir/api/HWGetRatingsApi.php";
+$wgAutoloadClasses['HWCountryRatingsApi'] = "$dir/api/HWCountryRatingsApi.php";
 $wgAPIModules['hwaddrating'] = 'HWAddRatingApi';
 $wgAPIModules['hwdeleterating'] = 'HWDeleteRatingApi';
 $wgAPIModules['hwavgrating'] = 'HWAvgRatingApi';
 $wgAPIModules['hwgetratings'] = 'HWGetRatingsApi';
+$wgAPIModules['hwgetcountryratings'] = 'HWCountryRatingsApi';
+
+// Register assets
+$wgHWRatingsResourceBoilerplate = array(
+  'localBasePath' =>  __DIR__,
+  'remoteExtPath' => 'HWRatings',
+);
+$wgResourceModules = array_merge( $wgResourceModules, array(
+  //See https://github.com/bjornd/jvectormap
+  'jvectormap' => $wgHWRatingsResourceBoilerplate + array(
+    'scripts' => array(
+      'modules/vendor/bower-jvectormap-2/jquery-jvectormap-2.0.0.min.js',
+      'modules/vendor/jvectormap-world-hitchwiki-custom/jvectormap-world-hitchwiki-custom.js',
+    ),
+    'styles' => array(
+      'modules/vendor/bower-jvectormap-2/jquery-jvectormap-2.0.0.css'
+    )
+  ),
+
+  'ext.HWRatings' => $wgHWRatingsResourceBoilerplate + array(
+    'dependencies' => array(
+      'jvectormap'
+    ),
+    'scripts' => array(
+      'modules/js/ext.HWRatings.js'
+    ),
+    'styles' => array(
+      'modules/less/specialpage.less'
+    ),
+    // Other ensures this loads after the Vector skin styles
+    'group' => 'other',
+    'position' => 'bottom',
+  )
+) );
 
 return true;
