@@ -21,7 +21,7 @@ $dir = __DIR__;
 
 // Register hook
 $wgAutoloadClasses['SpecialRatingsMap'] = $IP . '/extensions/HWRatings/SpecialRatingsMap.php';
-$wgSpecialPages['HWRatings'] = 'SpecialRatingsMap';
+$wgSpecialPages['HWCountries'] = 'SpecialRatingsMap';
 
 //Database hook
 $wgAutoloadClasses['HWRatingsHooks'] = "$dir/HWRatingsHooks.php";
