@@ -5,7 +5,7 @@
  */
 class SpecialRatingsMap extends SpecialPage {
   function __construct() {
-    parent::__construct( 'HWRatings' );
+    parent::__construct( 'HWCountries' );
   }
 
   function execute( $par ) {
