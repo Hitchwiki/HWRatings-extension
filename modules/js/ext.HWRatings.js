@@ -32,12 +32,13 @@ $(function(){
   };
 
   $.get( apiRoot + "/api.php?action=hwgetcountryratings&format=json", function( data ) {
-    var spots = data.query.spots;
     var values = {};
-    for(var i = 0; i < spots.length; i++) {
-      values[spots[i].title] = spots[i].average_rating;
+    if(data.query){
+      var spots = data.query.spots;
+      for(var i = 0; i < spots.length; i++) {
+        values[spots[i].title] = spots[i].average_rating;
+      }
     }
-    console.log(values);
 
     $('#hw-ratings-map').vectorMap({
       map: 'world-hitchwiki-custom',
