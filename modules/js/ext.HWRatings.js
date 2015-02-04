@@ -1,10 +1,12 @@
-/*/ Rating widget
-@hw-color-verygood:   #165E19;
-@hw-color-good:       #547A2F;
-@hw-color-average:    #A09800;
-@hw-color-bad:        #E57800;
-@hw-color-senseless:  #BC2C00;
-@hw-color-unknown:    #7F7F7F;
+/*/ Colors
+verygood:   #165E19;
+good:       #547A2F;
+average:    #A09800;
+bad:        #E57800;
+senseless:  #BC2C00;
+unknown:    #7F7F7F;
+sea:        #9dd1d3
+unknown:    #657778
 */
 
 $(function(){
@@ -51,6 +53,12 @@ $(function(){
           normalizeFunction: 'polynomial'
         }]
       },
+      regionStyle:{
+        initial: {
+          fill: '#657778'
+        }
+      },
+      backgroundColor: '#9dd1d3',
       onRegionTipShow: function(e, el, name){
         var rounded, label;
         if(values[name]) {
