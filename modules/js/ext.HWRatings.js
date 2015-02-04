@@ -36,7 +36,7 @@ $(function(){
     if(data.query){
       var spots = data.query.spots;
       for(var i = 0; i < spots.length; i++) {
-        values[spots[i].title] = spots[i].average_rating;
+        values[spots[i].title.replace(/_/g, " ")] = spots[i].average_rating;
       }
     }
 
