@@ -65,6 +65,3 @@ class HWRatingsHooks {
     return true;
   }
 }
-
-
-

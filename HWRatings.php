@@ -35,7 +35,7 @@ $wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndel
 $wgExtensionMessagesFiles['HWRatingsAlias'] = __DIR__ . '/HWRatings.alias.php';
 $wgExtensionMessagesFiles['HWCountriesAlias'] = __DIR__ . '/HWCountries.alias.php';
 
-//APIs
+// APIs
 $wgAutoloadClasses['HWRatingsBaseApi'] = "$dir/api/HWRatingsBaseApi.php";
 $wgAutoloadClasses['HWAddRatingApi'] = "$dir/api/HWAddRatingApi.php";
 $wgAutoloadClasses['HWDeleteRatingApi'] = "$dir/api/HWDeleteRatingApi.php";
