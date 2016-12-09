@@ -1,19 +1,11 @@
 {
   "name": "HWRatings",
-  "version": "0.0.1",
   "homepage": "https://github.com/Hitchwiki/hitchwiki",
   "authors": [
     "Remigr <remiclaude@free.fr>",
     "Mikael Korpela <mikael@ihminen.org>"
   ],
   "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "dependencies": {
     "bower-jvectormap-2": "*",
     "jvectormap-world-hitchwiki-custom": "https://github.com/Hitchwiki/jvectormap-world-hitchwiki-custom.git"
