@@ -10,9 +10,9 @@ $wgHwRatingsMaxRating = 5;
 /* ------------------------------------------------------------------------ */
 
 $wgExtensionCredits['HWRatings'][] = array(
-	'path' => __FILE__,
-	'name' => 'HWRatings',
-	'version' => '0.0.1',
+  'path' => __FILE__,
+  'name' => 'HWRatings',
+  'version' => '1.0.0',
   'author' => array('Rémi Claude', 'Mikael Korpela', 'Olexandr Melnyk'),
   'url' => 'https://github.com/Hitchwiki/HWRatings-extension'
 );
@@ -23,11 +23,11 @@ $dir = __DIR__;
 $wgAutoloadClasses['SpecialRatingsMap'] = $IP . '/extensions/HWRatings/SpecialRatingsMap.php';
 $wgSpecialPages['HWCountries'] = 'SpecialRatingsMap';
 
-//Database hook
+// Database hook
 $wgAutoloadClasses['HWRatingsHooks'] = "$dir/HWRatingsHooks.php";
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'HWRatingsHooks::onLoadExtensionSchemaUpdates';
 
-//Deletion and undeletion hooks
+// Deletion and undeletion hooks
 $wgHooks['ArticleDeleteComplete'][] = 'HWRatingsHooks::onArticleDeleteComplete';
 $wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndeleted';
 
