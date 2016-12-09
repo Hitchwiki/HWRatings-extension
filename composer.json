@@ -20,5 +20,9 @@
   ],
   "support": {
     "irc": "irc://irc.freenode.net/hitchhiking"
+  },
+  "scripts": {
+    "post-update-cmd": "bower install --config.interactive=false --allow-root",
+    "post-install-cmd": "bower install --config.interactive=false --allow-root"
   }
 }
