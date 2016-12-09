@@ -33,6 +33,7 @@ $wgHooks['ArticleRevisionUndeleted'][] = 'HWRatingsHooks::onArticleRevisionUndel
 
 // Register aliases
 $wgExtensionMessagesFiles['HWRatingsAlias'] = __DIR__ . '/HWRatings.alias.php';
+$wgExtensionMessagesFiles['HWCountriesAlias'] = __DIR__ . '/HWCountries.alias.php';
 
 //APIs
 $wgAutoloadClasses['HWRatingsBaseApi'] = "$dir/api/HWRatingsBaseApi.php";
