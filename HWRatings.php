@@ -53,7 +53,7 @@ $wgHWRatingsResourceBoilerplate = array(
   'remoteExtPath' => 'HWRatings',
 );
 $wgResourceModules = array_merge( $wgResourceModules, array(
-  //See https://github.com/bjornd/jvectormap
+  // See https://github.com/bjornd/jvectormap
   'jvectormap' => $wgHWRatingsResourceBoilerplate + array(
     'scripts' => array(
       'modules/vendor/bower-jvectormap-2/jquery-jvectormap-2.0.0.min.js',
@@ -66,6 +66,8 @@ $wgResourceModules = array_merge( $wgResourceModules, array(
 
   'ext.HWRatings' => $wgHWRatingsResourceBoilerplate + array(
     'dependencies' => array(
+      'mediawiki.page.startup',
+      'mediawiki.util',
       'jvectormap'
     ),
     'scripts' => array(
