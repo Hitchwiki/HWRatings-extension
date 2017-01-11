@@ -1,6 +1,6 @@
-$(function() {
+(function ($, mw) {
 
-  var getRatingLabel = function (rating) {
+  var getRatingLabel = function(rating) {
     if (rating >= 4.5) {
       return 'Very good';
     }
@@ -58,17 +58,18 @@ $(function() {
         }
       },
       backgroundColor: '#9dd1d3',
-      onRegionTipShow: function(e, el, name){
+      onRegionTipShow: function(event, element, name) {
         var rounded, label;
         if (values[name]) {
           var label = getRatingLabel(values[name]);
-          var rounded = Math.round(values[name]*100)/100;
-          el.html('Average Rating of ' + name + '<br />' + label + ' (' + rounded + ')');
+          var rounded = Math.round(values[name] * 100) / 100;
+          element.html('Average Rating of ' + name + '<br />' + label + ' (' + rounded + ')');
         } else {
-          el.html('No ratings for ' + name);
+          element.html('No ratings for ' + name);
         }
       }
     });
 
   });
-});
+
+}(jQuery, mediawiki));

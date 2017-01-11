@@ -28,9 +28,12 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
       ),
       __METHOD__,
       array(),
-      array( 'user' => array( 'LEFT JOIN', array(
-        'hw_ratings.hw_user_id = user.user_id',
-      ) ) )
+      array(
+        'user' => array(
+          'LEFT JOIN',
+          array('hw_ratings.hw_user_id = user.user_id')
+        )
+      )
     );
 
     $this->getResult()->addValue( array( 'query' ), 'ratings', array() );
@@ -93,5 +96,3 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
     ) );
   }
 }
-
-?>

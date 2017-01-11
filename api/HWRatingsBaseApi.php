@@ -12,7 +12,8 @@ abstract class HWRatingsBaseApi extends ApiBase {
     $res = $dbw->select(
       'hw_ratings',
       array(
-        'COALESCE(AVG(hw_rating), -1) AS average_rating', // we decided to stay away from NULLs
+        // `-1`: we decided to stay away from NULLs because of JSON limitations
+        'COALESCE(AVG(hw_rating), -1) AS average_rating',
         'COUNT(*) AS count_rating'
       ),
       array(
@@ -23,7 +24,7 @@ abstract class HWRatingsBaseApi extends ApiBase {
     $count = intval($row['count_rating']);
     $average = doubleval($row['average_rating']);
 
-    if ($count != 0) {
+    if ($count > 0) {
       // Update rating count and average rating cache
       $dbw->upsert(
         'hw_ratings_avg',
@@ -38,7 +39,8 @@ abstract class HWRatingsBaseApi extends ApiBase {
           'hw_average_rating' => $average
         )
       );
-    } else { // $count == 0
+    // else $count == 0
+    } else {
       $average = -1; // we decided to stay away from NULLs because of JSON limitations
 
       // Delete rating count and average rating for the page, if the page doesn't have any retings
@@ -56,5 +58,3 @@ abstract class HWRatingsBaseApi extends ApiBase {
     );
   }
 }
-
-?>
