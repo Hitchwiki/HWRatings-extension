@@ -3,6 +3,12 @@
 class HWAvgRatingApi extends HWRatingsBaseApi {
   public function execute() {
     $params = $this->extractRequestParams();
+
+    // Die if no `$page_id`
+    if (!isset($params['pageid']) || empty($params['pageid'])) {
+      $this->dieUsage('HWAvgRatingApi: no page ID defined. #g3uhhf');
+    }
+
     $page_ids = $params['pageid'];
 
     if ($params['user_id']) {

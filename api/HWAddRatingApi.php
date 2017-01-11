@@ -9,6 +9,17 @@ class HWAddRatingApi extends HWRatingsBaseApi {
     }
 
     $params = $this->extractRequestParams();
+
+    // Die if no `$page_id`
+    if (!isset($params['pageid']) || empty($params['pageid'])) {
+      $this->dieUsage('HWAddRatingApi: no page ID defined. #fhj3h3');
+    }
+
+    // Die if no `$rating`
+    if (!isset($params['rating']) || $params['rating'] === '') {
+      $this->dieUsage('HWAddRatingApi: no rating defined. #4j3888');
+    }
+
     $page_id = $params['pageid'];
     $user_id = $wgUser->getId();
     $rating = $params['rating'];
