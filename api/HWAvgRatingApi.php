@@ -2,6 +2,7 @@
 
 class HWAvgRatingApi extends HWRatingsBaseApi {
   public function execute() {
+    global $wgUser;
 
     $params = $this->extractRequestParams();
 
@@ -12,14 +13,14 @@ class HWAvgRatingApi extends HWRatingsBaseApi {
     );
     */
 
-    // Die if empty `$page_id`
+    // Die if empty `pageid` param
+    // @TODO: validate `pageid` format
     if (empty($params['pageid'])) {
       $this->dieUsage('HWAvgRatingApi: Invalid `pageid`. #g3uhhf');
     }
 
     $page_ids = $params['pageid'];
-
-    $user_id = !empty($params['user_id']) ? intval($params['user_id']) : 0;
+    $user_id = $wgUser->getId(); // will be `0` for unauthenticated users
 
     // Basic query settings
     $tables = array('hw_ratings_avg');
@@ -40,7 +41,7 @@ class HWAvgRatingApi extends HWRatingsBaseApi {
         'LEFT JOIN',
         array(
           'hw_ratings.hw_page_id = hw_ratings_avg.hw_page_id',
-          'hw_ratings.hw_user_id = ' . $user_id
+          'hw_ratings.hw_user_id = ' . $user_id // `$user_id` will be `0` for unauthenticated users
         )
       );
     }
@@ -95,19 +96,21 @@ class HWAvgRatingApi extends HWRatingsBaseApi {
         ApiBase::PARAM_TYPE => 'integer',
         ApiBase::PARAM_REQUIRED => true,
         ApiBase::PARAM_ISMULTI => true
-      ),
+      )
+      /*
       'user_id' => array (
         ApiBase::PARAM_TYPE => 'integer',
         ApiBase::PARAM_REQUIRED => false
       )
+      */
     );
   }
 
   // Describe the parameters
   public function getParamDescription() {
     return array_merge( parent::getParamDescription(), array(
-      'pageid' => 'Page id(s), delimited by | (vertical bar)',
-      'user_id' => "Optional user id to get specific user's rating"
+      'pageid' => 'Page id(s), delimited by | (vertical bar)'
+      // 'user_id' => "Optional user id to get specific user's rating"
     ) );
   }
 }

@@ -4,7 +4,7 @@ class HWDeleteRatingApi extends HWRatingsBaseApi {
   public function execute() {
     global $wgUser;
     if (!$wgUser->isAllowed('edit')) {
-      $this->dieUsage("You don't have permission to block users", "permissiondenied");
+      $this->dieUsage('You do not have permission to remove ratings', 'permissiondenied');
     }
 
     $params = $this->extractRequestParams();
