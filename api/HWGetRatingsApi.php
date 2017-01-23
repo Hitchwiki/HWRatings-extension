@@ -7,10 +7,18 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
     $params = $this->extractRequestParams();
     $page_id = $params['pageid'];
 
+    /*
+    MWDebug::log(
+      "HWGetRatingsApi::execute: \n" .
+      print_r($params, true)
+    );
+    */
+
     // Exit with an error if pageid is not valid (eg. non-existent or deleted)
     $this->getTitleOrPageId($params);
 
-    $dbr = wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB(DB_SLAVE);
+
     $res = $dbr->select(
       array(
         'hw_ratings',
@@ -43,11 +51,18 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
     $distribution = array();
     for ( $i = $wgHwRatingsMinRating; $i <= $wgHwRatingsMaxRating; $i++ ) {
       $distribution[$i] = array(
-        'count' => 0 // 'percentage' field will be set later on
+        'count' => 0 // `percentage` field will be set later on
       );
     }
 
     $rating_count = $res->numRows();
+
+    /*
+    MWDebug::log(
+      "HWGetRatingsApi::execute: - rating_count: " . $rating_count
+    );
+    */
+
     foreach( $res as $row ) {
       $vals = array(
         'pageid' => intval($row->hw_page_id),
@@ -60,6 +75,13 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
 
       $distribution[intval($row->hw_rating)]['count']++;
     }
+
+    /*
+    MWDebug::log(
+      "HWGetRatingsApi::execute: distribution\n" .
+      print_r($distribution, true)
+    );
+    */
 
     if ($rating_count != 0) { // prevent division by zero, and include distribution in result set only if there are ratings
       // Will not always sum up precisely to 100%, but such is life...
@@ -74,7 +96,7 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
     return true;
   }
 
-  // Description
+  // API endpoint description
   public function getDescription() {
     return 'Get all the ratings of a page';
   }
@@ -91,8 +113,9 @@ class HWGetRatingsApi extends HWRatingsBaseApi {
 
   // Describe the parameters
   public function getParamDescription() {
-    return array_merge( parent::getParamDescription(), array(
-      'pageid' => 'Id of the page'
-    ) );
+    return array_merge(
+      parent::getParamDescription(),
+      array('pageid' => 'Id of the page')
+    );
   }
 }

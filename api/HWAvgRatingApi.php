@@ -2,20 +2,24 @@
 
 class HWAvgRatingApi extends HWRatingsBaseApi {
   public function execute() {
+
     $params = $this->extractRequestParams();
 
-    // Die if no `$page_id`
-    if (!isset($params['pageid']) || empty($params['pageid'])) {
-      $this->dieUsage('HWAvgRatingApi: no page ID defined. #g3uhhf');
+    /*
+    MWDebug::log(
+      "HWAvgRatingApi::execute: \n" .
+      print_r($params, true)
+    );
+    */
+
+    // Die if empty `$page_id`
+    if (empty($params['pageid'])) {
+      $this->dieUsage('HWAvgRatingApi: Invalid `pageid`. #g3uhhf');
     }
 
     $page_ids = $params['pageid'];
 
-    if ($params['user_id']) {
-      $user_id = $params['user_id'];
-    } else {
-      $user_id = 0;
-    }
+    $user_id = !empty($params['user_id']) ? intval($params['user_id']) : 0;
 
     // Basic query settings
     $tables = array('hw_ratings_avg');
@@ -26,8 +30,9 @@ class HWAvgRatingApi extends HWRatingsBaseApi {
     );
     $join_conds = array();
 
-    // Join user's rating from hw_ratings if user_id was specified
-    if ($user_id) {
+    // Join user's rating from `hw_ratings` if `$user_id` was specified
+    // `$user_id` is `0` (=empty) for unauthenticated users.
+    if (!empty($user_id)) {
       $tables[] = 'hw_ratings';
       $fields[] = 'COALESCE(hw_ratings.hw_rating, -1) AS user_rating';
       $fields[] = "COALESCE(hw_ratings.hw_timestamp, '') AS user_timestamp";
@@ -40,7 +45,7 @@ class HWAvgRatingApi extends HWRatingsBaseApi {
       );
     }
 
-    $dbr = wfGetDB( DB_SLAVE );
+    $dbr = wfGetDB(DB_SLAVE);
     $res = $dbr->select(
       $tables,
       $fields,
@@ -65,12 +70,20 @@ class HWAvgRatingApi extends HWRatingsBaseApi {
         $vals['timestamp_user'] = $row->user_timestamp;
       }
       $this->getResult()->addValue(array('query', 'ratings'), null, $vals);
+
+      /*
+      MWDebug::log(
+        "HWAvgRatingApi::execute vals: \n" .
+        print_r($vals, true)
+      );
+      */
+
     }
 
     return true;
   }
 
-  // Description
+  // API endpoint description
   public function getDescription() {
     return 'Get rating count and average rating of one or more pages';
   }

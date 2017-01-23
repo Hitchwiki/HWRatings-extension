@@ -5,8 +5,12 @@
  */
 abstract class HWRatingsBaseApi extends ApiBase {
   public function updateRatingAverages($page_id) {
+
     $page_id = intval($page_id);
-    $dbw = wfGetDB( DB_MASTER );
+
+    // MWDebug::log('HWRatingsBaseApi::updateRatingAverages: ' . $page_id);
+
+    $dbw = wfGetDB(DB_MASTER);
 
     // Get fresh rating count and average rating
     $res = $dbw->select(
@@ -20,6 +24,7 @@ abstract class HWRatingsBaseApi extends ApiBase {
         'hw_page_id' => $page_id
       )
     );
+
     $row = $res->fetchRow();
     $count = intval($row['count_rating']);
     $average = doubleval($row['average_rating']);
@@ -41,9 +46,11 @@ abstract class HWRatingsBaseApi extends ApiBase {
       );
     // else $count == 0
     } else {
-      $average = -1; // we decided to stay away from NULLs because of JSON limitations
+      // we decided to stay away from NULLs because of JSON limitations, thus `-1`
+      $average = -1;
 
-      // Delete rating count and average rating for the page, if the page doesn't have any retings
+      // Delete rating count and average rating for the page,
+      // if the page doesn't have any ratings
       $dbw->delete(
         'hw_ratings_avg',
         array(

@@ -2,13 +2,22 @@
 
 class HWAddRatingApi extends HWRatingsBaseApi {
   public function execute() {
+
     global $wgUser;
 
     if (!$wgUser->isAllowed('edit')) {
       $this->dieUsage('You don\'t have permission to add rating', 'permissiondenied');
     }
 
+    // Get request params
     $params = $this->extractRequestParams();
+
+    /*
+    MWDebug::log(
+      "HWAddRatingApi::execute: \n" .
+      print_r($params, true)
+    );
+    */
 
     // Die if no `$page_id`
     if (!isset($params['pageid']) || empty($params['pageid'])) {
@@ -28,7 +37,7 @@ class HWAddRatingApi extends HWRatingsBaseApi {
     // Exit with an error if `pageid` is not valid (eg. non-existent or deleted)
     $this->getTitleOrPageId($params);
 
-    $dbw = wfGetDB( DB_MASTER );
+    $dbw = wfGetDB(DB_MASTER);
 
     // Avoid duplicate entry for the same user by deleting any previosu entries
     $dbw->delete(
@@ -58,11 +67,6 @@ class HWAddRatingApi extends HWRatingsBaseApi {
     $this->getResult()->addValue('query', 'timestamp', $timestamp);
 
     return true;
-  }
-
-  // API endpoint description
-  public function getDescription() {
-    return 'Add or update user\'s rating for an article.';
   }
 
   // API parameters
@@ -99,6 +103,11 @@ class HWAddRatingApi extends HWRatingsBaseApi {
       'pageid' => 'Page id',
       'token' => 'csrf token'
     ) );
+  }
+
+  // API endpoint description
+  public function getDescription() {
+    return 'Add or update user\'s rating for an article.';
   }
 
   public function needsToken() {

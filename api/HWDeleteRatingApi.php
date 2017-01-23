@@ -32,7 +32,7 @@ class HWDeleteRatingApi extends HWRatingsBaseApi {
     return true;
   }
 
-  // Description
+  // API endpoint description
   public function getDescription() {
     return "Delete user's rating of a page";
   }
@@ -60,9 +60,7 @@ class HWDeleteRatingApi extends HWRatingsBaseApi {
   }
 
   public function needsToken() {
-      return 'csrf';
+    return 'csrf';
   }
 
 }
-
-?>
