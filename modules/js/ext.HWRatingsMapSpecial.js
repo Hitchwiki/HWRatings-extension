@@ -21,13 +21,25 @@
     }
   };
 
-  $.get( mw.util.wikiScript('api') + '/?action=hwgetcountryratings&format=json', function(data) {
+  $.getJSON(mw.util.wikiScript('api'), {
+    action: 'hwgetcountryratings',
+    format: 'json'
+  }).done(function(data) {
+
+    if (data.error) {
+      mw.log.error('HWRatings::HWRatingsMap: Failed to get ratings from API. #238ghe');
+      return;
+    }
+
+    if (!data.query || data.query.spots) {
+      mw.log.error('HWRatings::HWRatingsMap: Failed to get ratings from API. #3g9187');
+      return;
+    }
+
     var values = {};
-    if (data.query) {
-      var spots = data.query.spots;
-      for (var i = 0; i < spots.length; i++) {
-        values[spots[i].title.replace(/_/g, ' ')] = spots[i].average_rating;
-      }
+    var spots = data.query.spots;
+    for (var i = 0; i < spots.length; i++) {
+      values[spots[i].title.replace(/_/g, ' ')] = spots[i].average_rating;
     }
 
     $('#hw-ratings-map').vectorMap({
@@ -52,7 +64,7 @@
           normalizeFunction: 'polynomial'
         }]
       },
-      regionStyle:{
+      regionStyle: {
         initial: {
           fill: '#657778'
         }
@@ -70,6 +82,9 @@
       }
     });
 
+  })
+  .fail(function() {
+    mw.log.error('HWRatings::HWRatingsMap: Failed to get ratings from API. #gj93hh');
   });
 
 }(jQuery, mediawiki));

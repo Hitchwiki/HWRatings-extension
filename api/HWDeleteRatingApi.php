@@ -14,7 +14,7 @@ class HWDeleteRatingApi extends HWRatingsBaseApi {
     // Exit with an error if pageid is not valid (eg. non-existent or deleted)
     $this->getTitleOrPageId($params);
 
-    $dbw = wfGetDB( DB_MASTER );
+    $dbw = wfGetDB(DB_MASTER);
     $dbw->delete(
       'hw_ratings',
       array(

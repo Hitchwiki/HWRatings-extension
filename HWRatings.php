@@ -75,7 +75,7 @@ $wgResourceModules = array_merge( $wgResourceModules, array(
       'jvectormap'
     ),
     'scripts' => array(
-      'modules/js/ext.HWRatings.js'
+      'modules/js/ext.HWRatingsMapSpecial.js'
     ),
     'styles' => array(
       'modules/less/specialpage.less'
